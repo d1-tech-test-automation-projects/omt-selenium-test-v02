@@ -1,3 +1,5 @@
+import java.time.Duration;
+
 public enum TimeOut {
 
     SHORT(5),
@@ -16,6 +18,8 @@ public enum TimeOut {
         return value;
     }
 
-
+    public Duration toDuration() {
+        return Duration.ofSeconds(value);
+    }
 
 }

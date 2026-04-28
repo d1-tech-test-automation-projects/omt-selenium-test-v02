@@ -1,16 +1,19 @@
+import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.time.Duration;
 import java.util.List;
-import java.util.NoSuchElementException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class BaseStep extends LogTest {
@@ -18,8 +21,19 @@ public class BaseStep extends LogTest {
 
         public static WebDriver driver;
         private static WebDriverWait wait;
-        private static final String DEFAULT_URL = "https://rezervasyon.denturgrup.com.tr/auth/login";
+        private static final String DEFAULT_URL = "https://test.d1-omt.com/login";
         private static final int DEFAULT_TIMEOUT = 10;
+
+        /**
+         * Her @Test metodundan önce otomatik çalışır.
+         * TestResultLogger'ın test süresi (duration) hesaplaması için
+         * test başlangıç zamanını kaydeder.
+         */
+        @BeforeEach
+        public void recordTestStartTime(TestInfo testInfo) {
+            String testName = getClass().getSimpleName() + "." + testInfo.getDisplayName();
+            TestResultLogger.recordTestStart(testName, this);
+        }
 
         /**
          * Chrome driver'ı başlatır ve konfigüre eder
@@ -113,7 +127,7 @@ public class BaseStep extends LogTest {
                 element.clear();
 
                 // Clear başarılı oldu mu kontrol et
-                String currentValue = element.getAttribute("value");
+                String currentValue = element.getDomProperty("value");
                 if (currentValue != null && !currentValue.isEmpty()) {
                     element.sendKeys(Keys.CONTROL + "a");
                     element.sendKeys(Keys.DELETE);
@@ -137,6 +151,8 @@ public class BaseStep extends LogTest {
         public static void clickElement(WebElement element, String elementDescription) {
             try {
                 actionInfo("Click", elementDescription);
+                WebDriverWait localWait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+                localWait.until(ExpectedConditions.elementToBeClickable(element));
                 element.click();
                 stepInfo("Element clicked successfully: " + elementDescription);
             } catch (Exception e) {
@@ -146,75 +162,30 @@ public class BaseStep extends LogTest {
             }
         }
 
-        /**
-         * Text assertion
-         Updated güncellendi
-         public static void assertEqualsGetText(String xpath, String expectedText, String description) {
-         WebElement element = null;
-         String actualText = null;
 
-         try {
-         element = findElementXpathWithWait(xpath, DEFAULT_TIMEOUT);
-         actualText = element.getText();
-
-         verificationInfo(description, expectedText, actualText);
-         assertEquals(expectedText, actualText);
-         testPassed("Text assertion: " + description);
-
-         } catch (AssertionError e) {
-         // Assertion hatası için özel işlem
-         logException("Text assertion failed", e);
-         TakeScreenShot.takeFailureScreenshot("assertEqualsGetText", driver, "Text assertion failed: " + description);
-         testFailed("Text assertion: " + description, "Expected: " + expectedText + ", Actual: " + actualText);
-         throw e;
-
-         } catch (Exception e) {
-         // Diğer hatalar için genel işlem
-         logException("Text assertion error", e);
-         TakeScreenShot.takeFailureScreenshot("assertEqualsGetText", driver, "Text assertion error: " + description);
-         testFailed("Text assertion: " + description, "Expected: " + expectedText + ", Error: " + e.getMessage());
-         throw e;
-         }
-         }
-         */
+    public static void waitSeconds(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000L); // ✅ Mükemmel!
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Wait interrupted: " + e.getMessage());
+        }
+    }
 
 
-        /**
-         * Title assertion
-
-         public static void assertEqualsGetTitle(String expectedTitle, String description) {
-         try {
-         String actualTitle = driver.getTitle();
-
-         verificationInfo(description, expectedTitle, actualTitle);
-         assertEquals(expectedTitle, actualTitle);
-         testPassed("Title assertion: " + description);
-
-         } catch (Exception e) {
-         logException("Title assertion", e);
-         TakeScreenShot.takeFailureScreenshot("assertEqualsGetTitle", driver, "Title assertion failed: " + description);
-         testFailed("Title assertion: " + description, "Expected: " + expectedTitle);
-         throw e;
-         }
-         }
-         */
 
 
-        // ============ FIND ELEMENT METHODS ============
 
-        /**
-         * XPath ile element bulur (wait olmadan)
-         */
         public static WebElement findElementXpath(String xpath) {
             try {
                 WebElement element = driver.findElement(By.xpath(xpath));
                 debug("Element found by xpath: " + xpath);
                 return element;
-            } catch (Exception e) {
+            } catch (NoSuchElementException e) {
                 error("Element not found by xpath: " + xpath);
                 TakeScreenShot.takeFailureScreenshot("findElementXpath", driver, "Element not found: " + xpath);
                 logException("Finding element by xpath", e);
-                return null;
+                throw e;
             }
         }
 
@@ -236,7 +207,7 @@ public class BaseStep extends LogTest {
                 debug("Searching for element with xpath: " + xpath);
 
                 WebDriverWait customWait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds));
-                WebElement element = customWait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+                WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
 
                 debug("Element found by xpath: " + xpath);
                 return element;
@@ -266,10 +237,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.id(id)));
                 debug("Element found by id with wait: " + id);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by id with wait: " + id);
+            } catch (TimeoutException e) {
+                error("Element not found by id within " + timeoutSeconds + " seconds: " + id);
+                TakeScreenShot.takeFailureScreenshot("findElementIdWithWait", driver, "Element not found: " + id);
                 logException("Finding element by id with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + id, e);
             }
         }
 
@@ -282,10 +254,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.className(className)));
                 debug("Element found by class name with wait: " + className);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by class name with wait: " + className);
+            } catch (TimeoutException e) {
+                error("Element not found by class name within " + timeoutSeconds + " seconds: " + className);
+                TakeScreenShot.takeFailureScreenshot("findElementClassNameWithWait", driver, "Element not found: " + className);
                 logException("Finding element by class name with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + className, e);
             }
         }
 
@@ -298,10 +271,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(cssSelector)));
                 debug("Element found by CSS selector with wait: " + cssSelector);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by CSS selector with wait: " + cssSelector);
+            } catch (TimeoutException e) {
+                error("Element not found by CSS selector within " + timeoutSeconds + " seconds: " + cssSelector);
+                TakeScreenShot.takeFailureScreenshot("findElementCssSelectorWithWait", driver, "Element not found: " + cssSelector);
                 logException("Finding element by CSS selector with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + cssSelector, e);
             }
         }
 
@@ -314,10 +288,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.name(name)));
                 debug("Element found by name with wait: " + name);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by name with wait: " + name);
+            } catch (TimeoutException e) {
+                error("Element not found by name within " + timeoutSeconds + " seconds: " + name);
+                TakeScreenShot.takeFailureScreenshot("findElementNameWithWait", driver, "Element not found: " + name);
                 logException("Finding element by name with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + name, e);
             }
         }
 
@@ -330,10 +305,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.linkText(linkText)));
                 debug("Element found by link text with wait: " + linkText);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by link text with wait: " + linkText);
+            } catch (TimeoutException e) {
+                error("Element not found by link text within " + timeoutSeconds + " seconds: " + linkText);
+                TakeScreenShot.takeFailureScreenshot("findElementLinkTextWithWait", driver, "Element not found: " + linkText);
                 logException("Finding element by link text with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + linkText, e);
             }
         }
 
@@ -346,10 +322,11 @@ public class BaseStep extends LogTest {
                 WebElement element = customWait.until(ExpectedConditions.presenceOfElementLocated(By.tagName(tagName)));
                 debug("Element found by tag name with wait: " + tagName);
                 return element;
-            } catch (Exception e) {
-                error("Element not found by tag name with wait: " + tagName);
+            } catch (TimeoutException e) {
+                error("Element not found by tag name within " + timeoutSeconds + " seconds: " + tagName);
+                TakeScreenShot.takeFailureScreenshot("findElementTagNameWithWait", driver, "Element not found: " + tagName);
                 logException("Finding element by tag name with wait", e);
-                return null;
+                throw new NoSuchElementException("Element not found after " + timeoutSeconds + " seconds: " + tagName, e);
             }
         }
 
@@ -392,6 +369,118 @@ public class BaseStep extends LogTest {
                 throw new RuntimeException("Failed to upload file: " + filePath.getName(), e);
             }
         }
+        /**
+         * OS dialog üzerinden dosya upload eder.
+         * Upload butonuna tıklar, OS dosya seçme dialog'u açılır,
+         * Robot ile dosya yolunu yapıştırıp Enter'a basar, dialog kapanır.
+         * Dosya src/test/resources klasöründen çekilir.
+         */
+        public static void uploadFileViaDialog(WebElement uploadButton, String fileName, String description) {
+            File uploadFile = null;
+            try {
+                if (uploadButton == null) {
+                    throw new IllegalArgumentException("Upload button cannot be null");
+                }
+                if (fileName == null || fileName.trim().isEmpty()) {
+                    throw new IllegalArgumentException("File name cannot be null or empty");
+                }
+
+                actionInfo("Upload file via OS dialog: " + fileName, description);
+
+                // src/test/resources klasöründen dosya yolu oluştur
+                String resourcesPath = System.getProperty("user.dir")
+                        + File.separator + "src"
+                        + File.separator + "test"
+                        + File.separator + "resources";
+                uploadFile = new File(resourcesPath, fileName);
+
+                if (!uploadFile.exists() || !uploadFile.isFile()) {
+                    TakeScreenShot.takeFailureScreenshot("uploadFileViaDialog", driver,
+                            "File not found in resources: " + uploadFile.getAbsolutePath());
+                    throw new IllegalArgumentException("File does not exist: " + uploadFile.getAbsolutePath());
+                }
+
+                // 1. Upload butonuna tıkla (OS dialog açılır)
+                clickElement(uploadButton, description);
+                stepInfo("Upload button clicked, waiting for OS dialog to open");
+
+                // Dialog'un tamamen açılması için bekle
+                Thread.sleep(2000);
+
+                // 2. Dosya yolunu clipboard'a kopyala
+                StringSelection selection = new StringSelection(uploadFile.getAbsolutePath());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(selection, null);
+                debug("File path copied to clipboard: " + uploadFile.getAbsolutePath());
+
+                // 3. Robot ile Ctrl+V (yapıştır) ve Enter (onayla)
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_V);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                Thread.sleep(500);
+
+                robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
+
+                // 4. Dialog kapanması ve upload işleminin başlaması için bekle
+                Thread.sleep(1500);
+
+                stepInfo("File uploaded via OS dialog successfully: " + uploadFile.getName());
+
+            } catch (Exception e) {
+                logException("Upload file via OS dialog", e);
+                String failedFile = (uploadFile != null) ? uploadFile.getName() : fileName;
+                TakeScreenShot.takeFailureScreenshot("uploadFileViaDialog", driver,
+                        "Failed to upload via dialog: " + failedFile);
+                throw new RuntimeException("Failed to upload file via dialog: " + fileName, e);
+            }
+        }
+
+        /**
+         * Proje içindeki src/test/resources klasöründen dosya upload eder.
+         * Hata durumunda screenshot alır.
+         */
+        public static void uploadFileFromProject(String xpath, String fileName, String description) {
+            File uploadFile = null;
+            try {
+                if (xpath == null || xpath.trim().isEmpty()) {
+                    throw new IllegalArgumentException("XPath cannot be null or empty");
+                }
+                if (fileName == null || fileName.trim().isEmpty()) {
+                    throw new IllegalArgumentException("File name cannot be null or empty");
+                }
+
+                actionInfo("File upload from project resources: " + fileName, description);
+
+                String resourcesPath = System.getProperty("user.dir")
+                        + File.separator + "src"
+                        + File.separator + "test"
+                        + File.separator + "resources";
+                uploadFile = new File(resourcesPath, fileName);
+
+                if (!uploadFile.exists() || !uploadFile.isFile()) {
+                    TakeScreenShot.takeFailureScreenshot("uploadFileFromProject", driver,
+                            "File not found in resources: " + uploadFile.getAbsolutePath());
+                    throw new IllegalArgumentException("File does not exist: " + uploadFile.getAbsolutePath());
+                }
+
+                WebElement fileInput = findElementXpathWithWait(xpath, DEFAULT_TIMEOUT);
+                fileInput.sendKeys(uploadFile.getAbsolutePath());
+
+                stepInfo("File uploaded successfully: " + uploadFile.getName()
+                        + " (" + uploadFile.getAbsolutePath() + ")");
+
+            } catch (Exception e) {
+                logException("Upload file from project", e);
+                String failedFile = (uploadFile != null) ? uploadFile.getName() : fileName;
+                TakeScreenShot.takeFailureScreenshot("uploadFileFromProject", driver,
+                        "Failed to upload file: " + failedFile);
+                throw new RuntimeException("Failed to upload file from project: " + fileName, e);
+            }
+        }
+
         /**
          * Geri navigasyon
          */
@@ -504,24 +593,10 @@ public class BaseStep extends LogTest {
 
         public void legitimateChecks() {
             // 1. Optional elements için
-            WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.SHORT.value);
-            if (optionalBanner != null) {
+            if (isElementPresent(By.id("promo-banner"))) {
+                WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.SHORT.value);
                 BaseStep.clickElement(optionalBanner, "Promo banner");
             }
-        /*
-        // 2. Business logic için
-        String currentUrl = driver.getCurrentUrl();
-        if (currentUrl.contains("login")) {
-            performLogin();
-        } else if (currentUrl.contains("dashboard")) {
-            performDashboardOperations();
-        }
-
-        // 3. Dynamic content için
-        java.util.List<WebElement> notifications = BaseStep.findElements(By.className("notification"));
-        if (notifications != null && !notifications.isEmpty()) {
-            info("Found " + notifications.size() + " notifications");
-        }*/
         }
 
 

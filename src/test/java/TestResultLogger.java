@@ -4,7 +4,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 import org.openqa.selenium.WebDriver;
 
-import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -73,7 +72,7 @@ public class TestResultLogger implements TestWatcher {
         LogTest.warn("========================================");
 
         if (cause != null) {
-            LogTest.logException("Test abortion", new Exception(cause));
+            logger.error("Test abortion", cause);
         }
 
         logger.warn("[ABORTED] {} - Reason: {} - Duration: {}ms",
@@ -103,7 +102,7 @@ public class TestResultLogger implements TestWatcher {
         LogTest.error("========================================");
 
         if (cause != null) {
-            LogTest.logException("Test failure", new Exception(cause));
+            logger.error("Test failure", cause);
 
             // Stack trace'in önemli kısımlarını logla
             StackTraceElement[] stackTrace = cause.getStackTrace();
@@ -184,17 +183,7 @@ public class TestResultLogger implements TestWatcher {
      * Test instance'ından driver'ı reflection ile alır
      */
     private WebDriver getDriverFromTestInstance(String testName) {
-        Object testInstance = testInstances.get(testName);
-        if (testInstance != null) {
-            try {
-                Field driverField = testInstance.getClass().getSuperclass().getDeclaredField("driver");
-                driverField.setAccessible(true);
-                return (WebDriver) driverField.get(testInstance);
-            } catch (Exception e) {
-                LogTest.debug("Could not access driver field: " + e.getMessage());
-            }
-        }
-        return null;
+        return BaseStep.driver;
     }
 
     /**

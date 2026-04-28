@@ -14,9 +14,9 @@ import java.nio.file.Paths;
 
 public class TakeScreenShot extends LogTest {
 
-    // Dinamik dosya yolu - proje klasörü içinde
+    // Dinamik dosya yolu - build output içinde
     private static final String BASE_SCREENSHOT_PATH = System.getProperty("user.dir") +
-            File.separator + "src" + File.separator + "test" + File.separator + "screenshots";
+            File.separator + "target" + File.separator + "screenshots";
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS");
 
