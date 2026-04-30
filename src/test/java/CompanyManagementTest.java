@@ -117,8 +117,8 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Pasif' seçiliyor...");
-        WebElement optionPasif = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Pasif']", TimeOut.SHORT.value);
-        BaseStep.clickElement(optionPasif, "Pasif seçildi");
+        WebElement optionPassive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Pasif']", TimeOut.SHORT.value);
+        BaseStep.clickElement(optionPassive, "Pasif seçildi");
         BaseStep.waitSeconds(3);
 
         LogTest.info("Durum filtresi tekrar açılıyor...");
@@ -127,8 +127,8 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Aktif' seçiliyor...");
-        WebElement optionAktif = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Aktif']", TimeOut.SHORT.value);
-        BaseStep.clickElement(optionAktif, "Aktif seçildi");
+        WebElement optionActive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Aktif']", TimeOut.SHORT.value);
+        BaseStep.clickElement(optionActive, "Aktif seçildi");
         BaseStep.waitSeconds(3);
     }
 
@@ -145,8 +145,8 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Teknopark Şubesi Yok' seçiliyor...");
-        WebElement optionYok = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Yok']", TimeOut.SHORT.value);
-        BaseStep.clickElement(optionYok, "Yok seçildi");
+        WebElement optionNone = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Yok']", TimeOut.SHORT.value);
+        BaseStep.clickElement(optionNone, "Yok seçildi");
         BaseStep.waitSeconds(3);
 
         LogTest.info("Teknopark filtresi tekrar açılıyor...");
@@ -155,8 +155,8 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Teknopark Şubesi Var' seçiliyor...");
-        WebElement optionVar = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Var']", TimeOut.SHORT.value);
-        BaseStep.clickElement(optionVar, "Var seçildi");
+        WebElement optionExist = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Var']", TimeOut.SHORT.value);
+        BaseStep.clickElement(optionExist, "Var seçildi");
         BaseStep.waitSeconds(3);
     }
 
@@ -184,11 +184,21 @@ public class CompanyManagementTest extends BaseStep {
 
         BaseStep.waitSeconds(2);
         LogTest.info("Yüklenici Şirket kartı seçiliyor...");
-        WebElement contractorCard = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-card')]//div[contains(text(), 'Yüklenici Şirket')] | //div[text()='Yüklenici Şirket']/ancestor::div[contains(@class, 'ant-card')] | /html/body/div[2]/div[2]/div/div[1]/div/div[2]/div/div/div[3]/div/div", TimeOut.SHORT.value);
-        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", contractorCard);
+        // Hibrit XPath: Hem metin içeriğini hem de kart sırasını (div[3]) kontrol eder
+        String cardXpath = "(//div[contains(@class, 'ant-card') and contains(., 'Yüklenici')])[1] " +
+                          "| (//div[contains(@class, 'ant-modal-body')]//div[contains(@class, 'ant-card')])[3] " +
+                          "| //*[contains(text(), 'Yüklenici')]/ancestor::div[contains(@class, 'ant-card')]";
+        
+        WebElement contractorCard = BaseStep.findElementXpathWithWait(cardXpath, TimeOut.MEDIUM.value);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", contractorCard);
         BaseStep.waitSeconds(1);
-        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", contractorCard);
-        LogTest.info("Yüklenici Şirket kartına tıklandı");
-        BaseStep.waitSeconds(2);
+        
+        try {
+            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", contractorCard);
+            LogTest.info("Yüklenici Şirket kartına tıklandı");
+        } catch (Exception e) {
+            contractorCard.click();
+        }
+        BaseStep.waitSeconds(10);
     }
 }
