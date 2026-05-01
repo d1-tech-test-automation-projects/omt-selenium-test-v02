@@ -204,7 +204,7 @@ public class PersonnelManagementTest extends BaseStep {
         LogTest.info("İşten Çıkarma Tarihi seçiliyor: Bugün");
         WebElement terminationDateInput = BaseStep.findElementXpathWithWait("//input[@id='terminationDate']", TimeOut.SHORT.value);
         BaseStep.clickElement(terminationDateInput, "Tarih kutusu tıklandı");
-        BaseStep.waitSeconds(1);
+        BaseStep.waitSeconds(11);
 
         WebElement todayBtn = BaseStep.findElementXpathWithWait("//a[contains(@class, 'ant-picker-today-btn')] | //a[text()='Bugün']", TimeOut.SHORT.value);
         BaseStep.clickElement(todayBtn, "Takvimden 'Bugün' butonuna tıklandı");

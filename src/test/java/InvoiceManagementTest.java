@@ -63,4 +63,90 @@ public class InvoiceManagementTest extends BaseStep {
         BaseStep.uploadFileFromProject("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/span/div[1]/span/input", "DÖKÜMAN.pdf", "Fatura dökümanı yüklendi");
         BaseStep.waitSeconds(5);
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("Sonraki Adıma Geçiliyor")
+    public void ClickNextStepButton() {
+        LogTest.info("Sonraki adım butonu aranıyor");
+        WebElement nextStepButton = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div/button", TimeOut.SHORT.value);
+        LogTest.info("Sonraki adım butonuna tıklanıyor");
+        BaseStep.clickElement(nextStepButton, "Sonraki adım butonuna tıklandı");
+        BaseStep.waitSeconds(3);
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("Fatura Bilgileri Dolduruluyor")
+    public void FillInvoiceDetails() {
+        LogTest.info("Fatura bilgileri formu dolduruluyor");
+
+        // Tedarikçi Şirketi Seçimi (Arayarak)
+        WebElement supplierCompany = BaseStep.findElementXpathWithWait("//*[@id='vendorCompanyId']", TimeOut.SHORT.value);
+        BaseStep.clickElement(supplierCompany, "Tedarikçi dropdown tıklandı");
+        BaseStep.clearAndType(supplierCompany, "D1-Tech", "Tedarikçi adı yazıldı");
+        BaseStep.waitSeconds(2);
+        WebElement supplierOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'D1-Tech')]", TimeOut.SHORT.value);
+        BaseStep.clickElement(supplierOption, "Tedarikçi seçildi");
+
+        // Alıcı Şirketi Seçimi (Arayarak)
+        WebElement receiverCompany = BaseStep.findElementXpathWithWait("//*[@id='buyerCompanyId']", TimeOut.SHORT.value);
+        BaseStep.clickElement(receiverCompany, "Alıcı dropdown tıklandı");
+        BaseStep.clearAndType(receiverCompany, "Ana Şirket", "Alıcı adı yazıldı");
+        BaseStep.waitSeconds(2);
+        WebElement receiverOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'Ana Şirket')]", TimeOut.SHORT.value);
+        BaseStep.clickElement(receiverOption, "Alıcı seçildi");
+
+        // Kontrat Seçimi
+        WebElement contractDropdown = BaseStep.findElementXpathWithWait("//*[@id='contractId']/ancestor::div[contains(@class, 'ant-select-selector')]", TimeOut.SHORT.value);
+        BaseStep.clickElement(contractDropdown, "Kontrat dropdown tıklandı");
+        BaseStep.waitSeconds(2);
+        WebElement contractOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'FRW-2026-0005')]", TimeOut.SHORT.value);
+        BaseStep.clickElement(contractOption, "Kontrat seçildi");
+
+        // Satın Alma Numarası (PO)
+        WebElement poNumberInput = BaseStep.findElementXpathWithWait("//*[@id='purchaseOrderNumber']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(poNumberInput, "PO123456", "PO Numarası girildi");
+
+        // İlgili Kişi Seçimi (Arayarak)
+        WebElement relatedPersonDropdown = BaseStep.findElementXpathWithWait("//*[@id='relatedPersonId']", TimeOut.SHORT.value);
+        BaseStep.clickElement(relatedPersonDropdown, "İlgili Kişi dropdown tıklandı");
+        BaseStep.clearAndType(relatedPersonDropdown, "Arda Kocaoğlu", "İlgili kişi aratıldı");
+        BaseStep.waitSeconds(2);
+        WebElement relatedPersonOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'Arda Kocaoğlu')]", TimeOut.SHORT.value);
+        BaseStep.clickElement(relatedPersonOption, "İlgili kişi seçildi");
+
+        // Açıklama
+        WebElement descriptionTextarea = BaseStep.findElementXpathWithWait("//*[@id='description']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(descriptionTextarea, "Test Faturası Açıklaması", "Açıklama girildi");
+
+        // Fatura Kalemleri - Açıklama
+        WebElement itemDescriptionInput = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div[8]/div/div/div/div[1]/div/table/tbody/tr[2]/td[2]/input", TimeOut.SHORT.value);
+        BaseStep.clearAndType(itemDescriptionInput, "Test Ürünü", "Kalem açıklaması girildi");
+
+        // Fatura Kalemleri - Miktar
+        WebElement quantityInput = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div[8]/div/div/div/div[1]/div/table/tbody/tr[2]/td[3]/div/div[2]/input", TimeOut.SHORT.value);
+        BaseStep.clearAndType(quantityInput, "10", "Miktar girildi");
+
+        // Fatura Kalemleri - Birim Fiyat
+        WebElement unitPriceInput = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div[8]/div/div/div/div[1]/div/table/tbody/tr[2]/td[5]/div/div[2]/input", TimeOut.SHORT.value);
+        BaseStep.clearAndType(unitPriceInput, "100", "Birim fiyat girildi");
+
+        // İleri: Onay Akışı Butonu
+        WebElement nextApprovalButton = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div[11]/div/div[2]/button", TimeOut.SHORT.value);
+        BaseStep.clickElement(nextApprovalButton, "İleri: Onay Akışı butonuna tıklandı");
+        
+        BaseStep.waitSeconds(3);
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("Fatura Onaya Gönderiliyor")
+    public void SubmitForApproval() {
+        LogTest.info("Onaya Gönder butonu aranıyor");
+        WebElement submitButton = BaseStep.findElementXpathWithWait("/html/body/div[2]/div[2]/div/div[1]/div/div[2]/form/div/div[2]/div[2]/div[5]/div/div[3]/button", TimeOut.SHORT.value);
+        LogTest.info("Onaya Gönder butonuna tıklanıyor");
+        BaseStep.clickElement(submitButton, "Onaya Gönder butonuna tıklandı");
+        BaseStep.waitSeconds(5);
+    }
 }

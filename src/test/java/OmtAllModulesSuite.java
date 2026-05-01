@@ -21,9 +21,11 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SuiteDisplayName("DHR All Modules Test Suite")
 @SelectClasses({
-        CompanyManagementTest.class,
+
         PersonnelManagementTest.class,
+        CompanyManagementTest.class,
         InvoiceManagementTest.class,
+
 })
 @ConfigurationParameter(
         key = "junit.jupiter.testclass.order.default",
