@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3228f9a7-1608-48df-a446-250e8aa72cf2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/InvoiceManagementTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/InvoiceManagementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/AdminPanelTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/CompanyManagementTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/CompanyManagementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/HrPanelTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/OmtAllModulesSuite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/OmtAllModulesSuite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/PersonnelManagementTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PersonnelManagementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ProcurementPanelTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/log/main.log" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/log/main.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +92,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.101" />
       </set>
     </attachedChunks>
   </component>

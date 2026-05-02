@@ -19,12 +19,16 @@ import org.junit.platform.suite.api.SuiteDisplayName;
  *   - Her sınıfın içindeki @Test metodları @Order annotation'ına göre sıralı çalışır
  */
 @Suite
-@SuiteDisplayName("DHR All Modules Test Suite")
+@SuiteDisplayName("OMT All Modules Test Suite")
 @SelectClasses({
 
+        DashboardPanelsTest.class,
+        HRDashboardTest.class,
+        ProcurementDashboardTest.class,
         PersonnelManagementTest.class,
         CompanyManagementTest.class,
         InvoiceManagementTest.class,
+        
 
 })
 @ConfigurationParameter(

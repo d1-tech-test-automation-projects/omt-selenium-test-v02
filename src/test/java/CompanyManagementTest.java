@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -179,26 +181,153 @@ public class CompanyManagementTest extends BaseStep {
     public void AddContractorCompany() {
         BaseStep.waitSeconds(2);
         LogTest.info("Yeni Şirket Ekle butonuna tıklanıyor...");
-        WebElement addCompanyBtn = BaseStep.findElementXpathWithWait("//button[span[contains(text(), 'Yeni Şirket Ekle')]] | //*[@id='root']//button[contains(., 'Yeni Şirket Ekle')]", TimeOut.SHORT.value);
+        WebElement addCompanyBtn = BaseStep.findElementXpathWithWait(
+            "//button[span[contains(text(), 'Yeni Şirket Ekle')]] | //*[@id='root']//button[contains(., 'Yeni Şirket Ekle')]",
+            TimeOut.SHORT.value);
         BaseStep.clickElement(addCompanyBtn, "Yeni Şirket Ekle butonuna tıklandı");
 
         BaseStep.waitSeconds(2);
         LogTest.info("Yüklenici Şirket kartı seçiliyor...");
-        // Hibrit XPath: Hem metin içeriğini hem de kart sırasını (div[3]) kontrol eder
-        String cardXpath = "(//div[contains(@class, 'ant-card') and contains(., 'Yüklenici')])[1] " +
-                          "| (//div[contains(@class, 'ant-modal-body')]//div[contains(@class, 'ant-card')])[3] " +
-                          "| //*[contains(text(), 'Yüklenici')]/ancestor::div[contains(@class, 'ant-card')]";
-        
-        WebElement contractorCard = BaseStep.findElementXpathWithWait(cardXpath, TimeOut.MEDIUM.value);
+        WebElement contractorCard = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class, 'ant-card')][.//strong[text()='Yüklenici Şirket']]",
+            TimeOut.MEDIUM.value);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", contractorCard);
         BaseStep.waitSeconds(1);
-        
-        try {
-            ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", contractorCard);
-            LogTest.info("Yüklenici Şirket kartına tıklandı");
-        } catch (Exception e) {
-            contractorCard.click();
-        }
-        BaseStep.waitSeconds(10);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", contractorCard);
+        LogTest.info("Yüklenici Şirket kartına tıklandı");
+        BaseStep.waitSeconds(3);
+
+        // ── TEMEL BİLGİLER SEKMESİ ──────────────────────────────────────────────
+        LogTest.info("Temel Bilgiler sekmesi dolduruluyor...");
+
+        // Şirket Adı
+        WebElement companyNameInput = BaseStep.findElementXpathWithWait("//*[@id='companyName']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(companyNameInput, "Test Yüklenici Şirket A.Ş.", "Şirket Adı");
+
+        // Vergi Numarası
+        WebElement taxNoInput = BaseStep.findElementXpathWithWait("//*[@id='taxNo']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(taxNoInput, "1234567890", "Vergi Numarası");
+
+        // Şirket Kısa Kodu
+        WebElement companyCodeInput = BaseStep.findElementXpathWithWait("//*[@id='companyCode']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(companyCodeInput, "TYS", "Şirket Kısa Kodu");
+
+        // Kuruluş Yılı
+        LogTest.info("Kuruluş Yılı seçiliyor...");
+        WebElement foundingYearInput = BaseStep.findElementXpathWithWait("//*[@id='foundingYear']", TimeOut.SHORT.value);
+        BaseStep.clickElement(foundingYearInput, "Kuruluş Yılı alanına tıklandı");
+        BaseStep.waitSeconds(1);
+        foundingYearInput.sendKeys("2015");
+        BaseStep.waitSeconds(1);
+        foundingYearInput.sendKeys(org.openqa.selenium.Keys.ENTER);
+        BaseStep.waitSeconds(1);
+
+        // Sektör dropdown
+        LogTest.info("Sektör seçiliyor...");
+        WebElement sectorSelector = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select')][.//input[@id='sector']]//div[contains(@class,'ant-select-selector')]",
+            TimeOut.SHORT.value);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", sectorSelector);
+        BaseStep.waitSeconds(1);
+        WebElement sectorInput = BaseStep.findElementXpathWithWait("//*[@id='sector']", TimeOut.SHORT.value);
+        sectorInput.sendKeys("Bilişim");
+        BaseStep.waitSeconds(1);
+        WebElement sectorOption = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Bilişim')]",
+            TimeOut.SHORT.value);
+        BaseStep.clickElement(sectorOption, "Sektör seçildi");
+        BaseStep.waitSeconds(1);
+        driver.findElement(By.tagName("body")).sendKeys(org.openqa.selenium.Keys.ESCAPE);
+        BaseStep.waitSeconds(1);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+            "document.querySelector('.ant-modal-body').click();");
+        BaseStep.waitSeconds(1);
+
+        // ── İLETİŞİM SEKMESİ ────────────────────────────────────────────────────
+        LogTest.info("İletişim sekmesine geçiliyor...");
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+            "var tabs = document.querySelectorAll('.ant-tabs-tab-btn');" +
+            "for (var i = 0; i < tabs.length; i++) {" +
+            "  if (tabs[i].textContent.trim() === 'İletişim') {" +
+            "    tabs[i].dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true}));" +
+            "    tabs[i].dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true}));" +
+            "    tabs[i].dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));" +
+            "    break;" +
+            "  }" +
+            "}"
+        );
+        BaseStep.waitSeconds(2);
+
+        // İlgili Kişi
+        WebElement contactPersonInput = BaseStep.findElementXpathWithWait("//*[@id='contactPerson']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(contactPersonInput, "Ahmet Yılmaz", "İlgili Kişi");
+
+        // E-posta
+        WebElement emailInput = BaseStep.findElementXpathWithWait("//*[@id='email']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(emailInput, "info@testyuklenici.com", "E-posta");
+
+        // Telefon
+        WebElement phoneInput = BaseStep.findElementXpathWithWait("//*[@id='phoneNumber']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(phoneInput, "5321234567", "Telefon");
+
+        // Ülke dropdown
+        LogTest.info("Ülke seçiliyor (Türkiye)...");
+        WebElement countrySelector = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select')][.//input[@id='countryId']]//div[contains(@class,'ant-select-selector')]",
+            TimeOut.SHORT.value);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", countrySelector);
+        BaseStep.waitSeconds(1);
+        WebElement countryInput = BaseStep.findElementXpathWithWait("//*[@id='countryId']", TimeOut.SHORT.value);
+        countryInput.sendKeys("Türkiye");
+        BaseStep.waitSeconds(1);
+        WebElement countryOption = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Türkiye')]",
+            TimeOut.SHORT.value);
+        BaseStep.clickElement(countryOption, "Ülke: Türkiye seçildi");
+        BaseStep.waitSeconds(1);
+
+        // Adres
+        WebElement addressInput = BaseStep.findElementXpathWithWait("//*[@id='address']", TimeOut.SHORT.value);
+        BaseStep.clearAndType(addressInput, "Atatürk Mah. Test Cad. No:1 Ankara", "Adres");
+
+        // ── BAĞLANTI SEKMESİ ─────────────────────────────────────────────────────
+        LogTest.info("Bağlantı sekmesine geçiliyor...");
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript(
+            "var tabs = document.querySelectorAll('.ant-tabs-tab-btn');" +
+            "for (var i = 0; i < tabs.length; i++) {" +
+            "  if (tabs[i].textContent.trim() === 'Bağlantı') {" +
+            "    tabs[i].dispatchEvent(new MouseEvent('mousedown', {bubbles: true, cancelable: true}));" +
+            "    tabs[i].dispatchEvent(new MouseEvent('mouseup', {bubbles: true, cancelable: true}));" +
+            "    tabs[i].dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true}));" +
+            "    break;" +
+            "  }" +
+            "}"
+        );
+        BaseStep.waitSeconds(2);
+
+        // Bağlı Olduğu Ana Şirket dropdown
+        LogTest.info("Bağlı Olduğu Ana Şirket seçiliyor...");
+        WebElement ownerCompanySelector = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select')][.//input[@id='directOwnerCompanyId']]//div[contains(@class,'ant-select-selector')]",
+            TimeOut.SHORT.value);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", ownerCompanySelector);
+        BaseStep.waitSeconds(1);
+        WebElement ownerCompanyInput = BaseStep.findElementXpathWithWait("//*[@id='directOwnerCompanyId']", TimeOut.SHORT.value);
+        ownerCompanyInput.sendKeys("Ana");
+        BaseStep.waitSeconds(1);
+        WebElement ownerOption = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Ana')]",
+            TimeOut.SHORT.value);
+        BaseStep.clickElement(ownerOption, "Ana Şirket seçildi");
+        BaseStep.waitSeconds(1);
+
+        // ── KAYDET ───────────────────────────────────────────────────────────────
+        LogTest.info("Kaydet butonuna tıklanıyor...");
+        WebElement saveBtn = BaseStep.findElementXpathWithWait(
+            "//div[contains(@class,'ant-modal')]//button[span[contains(text(),'Kaydet')]]",
+            TimeOut.SHORT.value);
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
+        LogTest.info("Kaydet butonuna tıklandı");
+        BaseStep.waitSeconds(3);
     }
 }
