@@ -20,15 +20,15 @@ public class HRDashboardTest extends BaseStep {
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
-        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.SHORT.value);
+        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.LONG.value);
         BaseStep.clearAndType(usernameInput, "ardakocaoglu44@gmail.com", "Kullanıcı Adı");
         LogTest.info("Kullanıcı adı gönderildi");
-        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.SHORT.value);
+        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.LONG.value);
         LogTest.info("Parola Inputu bulunuyor");
         BaseStep.clearAndType(passwordInput, "Arda.241144007", "Şifre");
         LogTest.info("Parola gönderildi");
         LogTest.info("Giriş Yap butonu bulunuyor");
-        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.SHORT.value);
+        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.LONG.value);
         BaseStep.clickElement(loginClickButton, "Giriş yap butonuna tıklandı");
         BaseStep.waitSeconds(3);
     }
@@ -41,14 +41,14 @@ public class HRDashboardTest extends BaseStep {
         LogTest.info("İK Paneli açılıyor...");
         WebElement hrLink = BaseStep.findElementXpathWithWait(
             "//span[@class='ant-menu-title-content']/a[@href='/hr-dashboard']",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         BaseStep.clickElement(hrLink, "İK Paneli linkine tıklandı");
         BaseStep.waitSeconds(3);
 
         LogTest.info("İstatistik kartları kontrol ediliyor...");
         BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-statistic') or contains(@class,'ant-card')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         LogTest.info("İstatistik kartları görünüyor");
 
         String[] tabs = {

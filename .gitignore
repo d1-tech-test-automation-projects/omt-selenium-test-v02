@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Custom ###
+.idea/workspace.xml
+src/test/log/

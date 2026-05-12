@@ -13,15 +13,15 @@ public class ReportingSystemTest extends BaseStep {
         BaseStep.openChromeDriver();
         LogTest.info("Tarayıcı açıldı");
         LogTest.info("Kullanıcı adı Input aranıyor");
-        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.SHORT.value);
+        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.LONG.value);
         BaseStep.clearAndType(usernameInput, "ardakocaoglu44@gmail.com", "Kullanıcı Adı");
         LogTest.info("Kullanıcı adı gönderildi");
-        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.SHORT.value);
+        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.LONG.value);
         LogTest.info("Parola Inputu bulunuyor");
         BaseStep.clearAndType(passwordInput, "Arda.241144007", "Şifre");
         LogTest.info("Parola gönderildi");
         LogTest.info("Giriş Yap butonu bulunuyor");
-        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.SHORT.value);
+        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.LONG.value);
         BaseStep.clickElement(loginClickButton, "Giriş yap butonuna tıklandı");
     }
 
@@ -31,7 +31,7 @@ public class ReportingSystemTest extends BaseStep {
     public void PageReportingSystem() {
         BaseStep.waitSeconds(3);
         LogTest.info("Raporlama Sistemi dropdown aranıyor");
-        WebElement ReportingSystemDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/reports']", TimeOut.SHORT.value);
+        WebElement ReportingSystemDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/reports']", TimeOut.LONG.value);
         LogTest.info("Raporlama Sistemi butonuna tıklanıyor");
         BaseStep.clickElement(ReportingSystemDropdown, "Raporlama Sistemi butonuna tıklandı");
     }

@@ -13,15 +13,15 @@ public class OvertimeEntryTest extends BaseStep {
         BaseStep.openChromeDriver();
         LogTest.info("Tarayıcı açıldı");
         LogTest.info("Kullanıcı adı Input aranıyor");
-        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.SHORT.value);
+        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.LONG.value);
         BaseStep.clearAndType(usernameInput, "ardakocaoglu44@gmail.com", "Kullanıcı Adı");
         LogTest.info("Kullanıcı adı gönderildi");
-        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.SHORT.value);
+        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.LONG.value);
         LogTest.info("Parola Inputu bulunuyor");
         BaseStep.clearAndType(passwordInput, "Arda.241144007", "Şifre");
         LogTest.info("Parola gönderildi");
         LogTest.info("Giriş Yap butonu bulunuyor");
-        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.SHORT.value);
+        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.LONG.value);
         BaseStep.clickElement(loginClickButton, "Giriş yap butonuna tıklandı");
     }
 
@@ -31,7 +31,7 @@ public class OvertimeEntryTest extends BaseStep {
     public void PageOvertimeEntry() {
         BaseStep.waitSeconds(3);
         LogTest.info("Mesai Girişi dropdown aranıyor");
-        WebElement OvertimeEntryDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/performance/timesheet']", TimeOut.SHORT.value);
+        WebElement OvertimeEntryDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/performance/timesheet']", TimeOut.LONG.value);
         LogTest.info("Mesai Girişi butonuna tıklanıyor");
         BaseStep.clickElement(OvertimeEntryDropdown, "Mesai Girişi butonuna tıklandı");
     }

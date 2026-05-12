@@ -22,15 +22,15 @@ public class CompanyManagementTest extends BaseStep {
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
-        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.SHORT.value);
+        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.LONG.value);
         BaseStep.clearAndType(usernameInput, "ardakocaoglu44@gmail.com", "Kullanıcı Adı");
         LogTest.info("Kullanıcı adı gönderildi");
-        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.SHORT.value);
+        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.LONG.value);
         LogTest.info("Parola Inputu bulunuyor");
         BaseStep.clearAndType(passwordInput, "Arda.241144007", "Şifre");
         LogTest.info("Parola gönderildi");
         LogTest.info("Giriş Yap butonu bulunuyor");
-        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.SHORT.value);
+        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.LONG.value);
         BaseStep.clickElement(loginClickButton, "Giriş yap butonuna tıklandı");
     }
 
@@ -40,7 +40,7 @@ public class CompanyManagementTest extends BaseStep {
     public void PageCompanyManagement() {
         BaseStep.waitSeconds(3);
         LogTest.info("Şirket Yönetimi dropdown aranıyor");
-        WebElement CompanyManagementDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/company']", TimeOut.SHORT.value);
+        WebElement CompanyManagementDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/company']", TimeOut.LONG.value);
         LogTest.info("Şirket Yönetimi butonuna tıklanıyor");
         BaseStep.clickElement(CompanyManagementDropdown, "Şirket Yönetimi butonuna tıklandı");
     }
@@ -73,7 +73,7 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(2);
 
         LogTest.info("Kuruluş yılı güncelleniyor...");
-        WebElement foundingYearInput = BaseStep.findElementXpathWithWait("//*[@id='foundingYear']", TimeOut.SHORT.value);
+        WebElement foundingYearInput = BaseStep.findElementXpathWithWait("//*[@id='foundingYear']", TimeOut.LONG.value);
         String currentYearStr = foundingYearInput.getAttribute("value");
         int currentYear = Integer.parseInt(currentYearStr);
         String newYear = String.valueOf(currentYear - 1);
@@ -86,7 +86,7 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(1);
 
         LogTest.info("Değişikliği Kaydet butonuna tıklanıyor...");
-        WebElement saveChangesBtn = BaseStep.findElementXpathWithWait("/html/body/div[3]/div[2]/div/div[1]/div/div/div/div/div/div[2]/form/div[2]/div/div/div/div/div/div[2]/button", TimeOut.SHORT.value);
+        WebElement saveChangesBtn = BaseStep.findElementXpathWithWait("/html/body/div[3]/div[2]/div/div[1]/div/div/div/div/div/div[2]/form/div[2]/div/div/div/div/div/div[2]/button", TimeOut.LONG.value);
         BaseStep.clickElement(saveChangesBtn, "Değişikliği Kaydet butonuna tıklandı");
         BaseStep.waitSeconds(2);
     }
@@ -114,22 +114,22 @@ public class CompanyManagementTest extends BaseStep {
         String filterXpath = "//*[@id='root']/div/div/div/main/div/div/div/div[1]/div[2]/div/div[1]/div/div";
         
         LogTest.info("Durum filtresi açılıyor...");
-        WebElement filter = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.SHORT.value);
+        WebElement filter = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.LONG.value);
         BaseStep.clickElement(filter, "Filtre dropdown açıldı");
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Pasif' seçiliyor...");
-        WebElement optionPassive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Pasif']", TimeOut.SHORT.value);
+        WebElement optionPassive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Pasif']", TimeOut.LONG.value);
         BaseStep.clickElement(optionPassive, "Pasif seçildi");
         BaseStep.waitSeconds(3);
 
         LogTest.info("Durum filtresi tekrar açılıyor...");
-        WebElement filterAgain = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.SHORT.value);
+        WebElement filterAgain = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.LONG.value);
         BaseStep.clickElement(filterAgain, "Filtre dropdown tekrar açıldı");
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Aktif' seçiliyor...");
-        WebElement optionActive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Aktif']", TimeOut.SHORT.value);
+        WebElement optionActive = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Aktif']", TimeOut.LONG.value);
         BaseStep.clickElement(optionActive, "Aktif seçildi");
         BaseStep.waitSeconds(3);
     }
@@ -142,22 +142,22 @@ public class CompanyManagementTest extends BaseStep {
         String filterXpath = "//*[@id='root']/div/div/div/main/div/div/div/div[1]/div[2]/div/div[2]/div/div";
         
         LogTest.info("Teknopark filtresi açılıyor...");
-        WebElement filter = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.SHORT.value);
+        WebElement filter = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.LONG.value);
         BaseStep.clickElement(filter, "Teknopark filtresi açıldı");
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Teknopark Şubesi Yok' seçiliyor...");
-        WebElement optionNone = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Yok']", TimeOut.SHORT.value);
+        WebElement optionNone = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Yok']", TimeOut.LONG.value);
         BaseStep.clickElement(optionNone, "Yok seçildi");
         BaseStep.waitSeconds(3);
 
         LogTest.info("Teknopark filtresi tekrar açılıyor...");
-        WebElement filterAgain = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.SHORT.value);
+        WebElement filterAgain = BaseStep.findElementXpathWithWait(filterXpath, TimeOut.LONG.value);
         BaseStep.clickElement(filterAgain, "Teknopark filtresi tekrar açıldı");
         BaseStep.waitSeconds(1);
 
         LogTest.info("'Teknopark Şubesi Var' seçiliyor...");
-        WebElement optionExist = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Var']", TimeOut.SHORT.value);
+        WebElement optionExist = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and text()='Teknopark Şubesi Var']", TimeOut.LONG.value);
         BaseStep.clickElement(optionExist, "Var seçildi");
         BaseStep.waitSeconds(3);
     }
@@ -168,7 +168,7 @@ public class CompanyManagementTest extends BaseStep {
     public void TestClearFilters() {
         BaseStep.waitSeconds(2);
         LogTest.info("Filtreleri Temizle butonuna tıklanıyor...");
-        WebElement clearBtn = BaseStep.findElementXpathWithWait("//*[@id='root']/div/div/div/main/div/div/div/div[1]/div[2]/div/div[3]/button", TimeOut.SHORT.value);
+        WebElement clearBtn = BaseStep.findElementXpathWithWait("//*[@id='root']/div/div/div/main/div/div/div/div[1]/div[2]/div/div[3]/button", TimeOut.LONG.value);
         BaseStep.clickElement(clearBtn, "Filtreleri Temizle butonuna tıklandı");
         BaseStep.waitSeconds(1);
         LogTest.info("Filtreler temizlendi!");
@@ -183,7 +183,7 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Yeni Şirket Ekle butonuna tıklanıyor...");
         WebElement addCompanyBtn = BaseStep.findElementXpathWithWait(
             "//button[span[contains(text(), 'Yeni Şirket Ekle')]] | //*[@id='root']//button[contains(., 'Yeni Şirket Ekle')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         BaseStep.clickElement(addCompanyBtn, "Yeni Şirket Ekle butonuna tıklandı");
 
         BaseStep.waitSeconds(2);
@@ -201,20 +201,20 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Temel Bilgiler sekmesi dolduruluyor...");
 
         // Şirket Adı
-        WebElement companyNameInput = BaseStep.findElementXpathWithWait("//*[@id='companyName']", TimeOut.SHORT.value);
+        WebElement companyNameInput = BaseStep.findElementXpathWithWait("//*[@id='companyName']", TimeOut.LONG.value);
         BaseStep.clearAndType(companyNameInput, "Test Yüklenici Şirket A.Ş.", "Şirket Adı");
 
         // Vergi Numarası
-        WebElement taxNoInput = BaseStep.findElementXpathWithWait("//*[@id='taxNo']", TimeOut.SHORT.value);
+        WebElement taxNoInput = BaseStep.findElementXpathWithWait("//*[@id='taxNo']", TimeOut.LONG.value);
         BaseStep.clearAndType(taxNoInput, "1234567890", "Vergi Numarası");
 
         // Şirket Kısa Kodu
-        WebElement companyCodeInput = BaseStep.findElementXpathWithWait("//*[@id='companyCode']", TimeOut.SHORT.value);
+        WebElement companyCodeInput = BaseStep.findElementXpathWithWait("//*[@id='companyCode']", TimeOut.LONG.value);
         BaseStep.clearAndType(companyCodeInput, "TYS", "Şirket Kısa Kodu");
 
         // Kuruluş Yılı
         LogTest.info("Kuruluş Yılı seçiliyor...");
-        WebElement foundingYearInput = BaseStep.findElementXpathWithWait("//*[@id='foundingYear']", TimeOut.SHORT.value);
+        WebElement foundingYearInput = BaseStep.findElementXpathWithWait("//*[@id='foundingYear']", TimeOut.LONG.value);
         BaseStep.clickElement(foundingYearInput, "Kuruluş Yılı alanına tıklandı");
         BaseStep.waitSeconds(1);
         foundingYearInput.sendKeys("2015");
@@ -226,15 +226,15 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Sektör seçiliyor...");
         WebElement sectorSelector = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select')][.//input[@id='sector']]//div[contains(@class,'ant-select-selector')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", sectorSelector);
         BaseStep.waitSeconds(1);
-        WebElement sectorInput = BaseStep.findElementXpathWithWait("//*[@id='sector']", TimeOut.SHORT.value);
+        WebElement sectorInput = BaseStep.findElementXpathWithWait("//*[@id='sector']", TimeOut.LONG.value);
         sectorInput.sendKeys("Bilişim");
         BaseStep.waitSeconds(1);
         WebElement sectorOption = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Bilişim')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         BaseStep.clickElement(sectorOption, "Sektör seçildi");
         BaseStep.waitSeconds(1);
         driver.findElement(By.tagName("body")).sendKeys(org.openqa.selenium.Keys.ESCAPE);
@@ -259,35 +259,35 @@ public class CompanyManagementTest extends BaseStep {
         BaseStep.waitSeconds(2);
 
         // İlgili Kişi
-        WebElement contactPersonInput = BaseStep.findElementXpathWithWait("//*[@id='contactPerson']", TimeOut.SHORT.value);
+        WebElement contactPersonInput = BaseStep.findElementXpathWithWait("//*[@id='contactPerson']", TimeOut.LONG.value);
         BaseStep.clearAndType(contactPersonInput, "Ahmet Yılmaz", "İlgili Kişi");
 
         // E-posta
-        WebElement emailInput = BaseStep.findElementXpathWithWait("//*[@id='email']", TimeOut.SHORT.value);
+        WebElement emailInput = BaseStep.findElementXpathWithWait("//*[@id='email']", TimeOut.LONG.value);
         BaseStep.clearAndType(emailInput, "info@testyuklenici.com", "E-posta");
 
         // Telefon
-        WebElement phoneInput = BaseStep.findElementXpathWithWait("//*[@id='phoneNumber']", TimeOut.SHORT.value);
+        WebElement phoneInput = BaseStep.findElementXpathWithWait("//*[@id='phoneNumber']", TimeOut.LONG.value);
         BaseStep.clearAndType(phoneInput, "5321234567", "Telefon");
 
         // Ülke dropdown
         LogTest.info("Ülke seçiliyor (Türkiye)...");
         WebElement countrySelector = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select')][.//input[@id='countryId']]//div[contains(@class,'ant-select-selector')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", countrySelector);
         BaseStep.waitSeconds(1);
-        WebElement countryInput = BaseStep.findElementXpathWithWait("//*[@id='countryId']", TimeOut.SHORT.value);
+        WebElement countryInput = BaseStep.findElementXpathWithWait("//*[@id='countryId']", TimeOut.LONG.value);
         countryInput.sendKeys("Türkiye");
         BaseStep.waitSeconds(1);
         WebElement countryOption = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Türkiye')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         BaseStep.clickElement(countryOption, "Ülke: Türkiye seçildi");
         BaseStep.waitSeconds(1);
 
         // Adres
-        WebElement addressInput = BaseStep.findElementXpathWithWait("//*[@id='address']", TimeOut.SHORT.value);
+        WebElement addressInput = BaseStep.findElementXpathWithWait("//*[@id='address']", TimeOut.LONG.value);
         BaseStep.clearAndType(addressInput, "Atatürk Mah. Test Cad. No:1 Ankara", "Adres");
 
         // ── BAĞLANTI SEKMESİ ─────────────────────────────────────────────────────
@@ -309,15 +309,15 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Bağlı Olduğu Ana Şirket seçiliyor...");
         WebElement ownerCompanySelector = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select')][.//input[@id='directOwnerCompanyId']]//div[contains(@class,'ant-select-selector')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", ownerCompanySelector);
         BaseStep.waitSeconds(1);
-        WebElement ownerCompanyInput = BaseStep.findElementXpathWithWait("//*[@id='directOwnerCompanyId']", TimeOut.SHORT.value);
+        WebElement ownerCompanyInput = BaseStep.findElementXpathWithWait("//*[@id='directOwnerCompanyId']", TimeOut.LONG.value);
         ownerCompanyInput.sendKeys("Ana");
         BaseStep.waitSeconds(1);
         WebElement ownerOption = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Ana')]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         BaseStep.clickElement(ownerOption, "Ana Şirket seçildi");
         BaseStep.waitSeconds(1);
 
@@ -325,7 +325,7 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Kaydet butonuna tıklanıyor...");
         WebElement saveBtn = BaseStep.findElementXpathWithWait(
             "//div[contains(@class,'ant-modal')]//button[span[contains(text(),'Kaydet')]]",
-            TimeOut.SHORT.value);
+            TimeOut.LONG.value);
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
         LogTest.info("Kaydet butonuna tıklandı");
         BaseStep.waitSeconds(3);

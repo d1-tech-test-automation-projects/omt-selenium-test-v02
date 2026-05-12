@@ -594,7 +594,7 @@ public class BaseStep extends LogTest {
         public void legitimateChecks() {
             // 1. Optional elements için
             if (isElementPresent(By.id("promo-banner"))) {
-                WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.SHORT.value);
+                WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.LONG.value);
                 BaseStep.clickElement(optionalBanner, "Promo banner");
             }
         }

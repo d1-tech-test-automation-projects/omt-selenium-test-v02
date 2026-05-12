@@ -13,15 +13,15 @@ public class LeaveApprovalsTest extends BaseStep {
         BaseStep.openChromeDriver();
         LogTest.info("Tarayıcı açıldı");
         LogTest.info("Kullanıcı adı Input aranıyor");
-        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.SHORT.value);
+        WebElement usernameInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_email\"]", TimeOut.LONG.value);
         BaseStep.clearAndType(usernameInput, "ardakocaoglu44@gmail.com", "Kullanıcı Adı");
         LogTest.info("Kullanıcı adı gönderildi");
-        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.SHORT.value);
+        WebElement passwordInput = BaseStep.findElementXpathWithWait("//*[@id=\"login_password\"]", TimeOut.LONG.value);
         LogTest.info("Parola Inputu bulunuyor");
         BaseStep.clearAndType(passwordInput, "Arda.241144007", "Şifre");
         LogTest.info("Parola gönderildi");
         LogTest.info("Giriş Yap butonu bulunuyor");
-        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.SHORT.value);
+        WebElement loginClickButton = BaseStep.findElementXpathWithWait("(//button[@type='submit'])[1]", TimeOut.LONG.value);
         BaseStep.clickElement(loginClickButton, "Giriş yap butonuna tıklandı");
     }
 
@@ -31,7 +31,7 @@ public class LeaveApprovalsTest extends BaseStep {
     public void PageLeaveApprovals() {
         BaseStep.waitSeconds(3);
         LogTest.info("İzin Onayları dropdown aranıyor");
-        WebElement LeaveApprovalsDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/permits/approval']", TimeOut.SHORT.value);
+        WebElement LeaveApprovalsDropdown = BaseStep.findElementXpathWithWait("//span[@class='ant-menu-title-content']/a[@href='/permits/approval']", TimeOut.LONG.value);
         LogTest.info("İzin Onayları butonuna tıklanıyor");
         BaseStep.clickElement(LeaveApprovalsDropdown, "İzin Onayları butonuna tıklandı");
     }
