@@ -38,39 +38,60 @@ public class BaseStep extends LogTest {
         /**
          * Chrome driver'ı başlatır ve konfigüre eder
          */
-        public static void openChromeDriver() {
-            try {
-                stepInfo("Initializing Chrome WebDriver");
 
-                // Chrome options
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--disable-notifications");
-                options.addArguments("--disable-popup-blocking");
-                options.addArguments("--ignore-certificate-errors");
-                options.addArguments("--ignore-ssl-errors");
-                options.addArguments("--allow-running-insecure-content");
 
-                // Driver oluştur
-                driver = new ChromeDriver(options);
-                wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+    /* güncel openchromedriver method */
 
-                // Temel konfigürasyonlar
-                driver.manage().window().maximize();
-                driver.manage().deleteAllCookies();
-                driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT));
+     public static void openChromeDriver() {
+     try {
+     stepInfo("Initializing Chrome WebDriver");
 
-                browserAction("Chrome browser initialized", "Chrome");
+     // Chrome options
+     ChromeOptions options = new ChromeOptions();
 
-                // Default URL'e git
-                navigateToUrl(DEFAULT_URL);
+     // Jenkins / CI ortamı için headless ve viewport ayarları
+     String headlessMode = System.getProperty("headless", "false");
+     if ("true".equalsIgnoreCase(headlessMode)) {
+     options.addArguments("--headless=new");
+     options.addArguments("--disable-gpu");
+     options.addArguments("--no-sandbox");
+     options.addArguments("--disable-dev-shm-usage");
+     }
+     options.addArguments("--window-size=1920,1080");
 
-            } catch (Exception e) {
-                logException("Opening Chrome driver", e);
-                throw new RuntimeException("Failed to initialize Chrome driver", e);
-            }
-        }
+     // Mevcut argümanlar
+     options.addArguments("--disable-notifications");
+     options.addArguments("--disable-popup-blocking");
+     options.addArguments("--ignore-certificate-errors");
+     options.addArguments("--ignore-ssl-errors");
+     options.addArguments("--allow-running-insecure-content");
 
-        /**
+     // Driver oluştur
+     driver = new ChromeDriver(options);
+     wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+
+     // Temel konfigürasyonlar
+     // Headless modda maximize() çalışmaz; sadece GUI modda devreye alıyoruz
+     if (!"true".equalsIgnoreCase(headlessMode)) {
+     driver.manage().window().maximize();
+     }
+     driver.manage().deleteAllCookies();
+     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(DEFAULT_TIMEOUT));
+
+     browserAction("Chrome browser initialized", "Chrome");
+
+     // Default URL'e git
+     navigateToUrl(DEFAULT_URL);
+
+     } catch (Exception e) {
+     logException("Opening Chrome driver", e);
+     throw new RuntimeException("Failed to initialize Chrome driver", e);
+     }
+     }
+
+
+
+    /**
          * Driver'ı kapatır
          */
         public static void driverQuit() {
@@ -594,7 +615,7 @@ public class BaseStep extends LogTest {
         public void legitimateChecks() {
             // 1. Optional elements için
             if (isElementPresent(By.id("promo-banner"))) {
-                WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.LONG.value);
+                WebElement optionalBanner = BaseStep.findElementIdWithWait("promo-banner", TimeOut.SHORT.value);
                 BaseStep.clickElement(optionalBanner, "Promo banner");
             }
         }
