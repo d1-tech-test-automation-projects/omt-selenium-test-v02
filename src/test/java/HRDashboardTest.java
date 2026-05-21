@@ -16,7 +16,7 @@ public class HRDashboardTest extends BaseStep {
     }
 
     @Test
-    @Order(1)
+    @Order(3)
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
@@ -34,7 +34,7 @@ public class HRDashboardTest extends BaseStep {
     }
 
     @Test
-    @Order(2)
+    @Order(4)
     @DisplayName("İK Paneli - Sayfaya Git ve Sekmeleri Gez")
     public void TestHRDashboard() {
         BaseStep.waitSeconds(1);

@@ -26,7 +26,7 @@ import org.junit.platform.suite.api.SuiteDisplayName;
         HRDashboardTest.class,
         ProcurementDashboardTest.class,
         PersonnelManagementTest.class,
-        CompanyManagementTest.class, 
+        CompanyManagementTest.class,
         InvoiceManagementTest.class,
         
 

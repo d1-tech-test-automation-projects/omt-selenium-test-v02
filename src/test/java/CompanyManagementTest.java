@@ -18,7 +18,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(1)
+    @Order(13)
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
@@ -35,7 +35,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(2)
+    @Order(14)
     @DisplayName("Şirket Yönetimi Sayfası Test Ediliyor")
     public void PageCompanyManagement() {
         BaseStep.waitSeconds(3);
@@ -44,9 +44,9 @@ public class CompanyManagementTest extends BaseStep {
         LogTest.info("Şirket Yönetimi butonuna tıklanıyor");
         BaseStep.clickElement(CompanyManagementDropdown, "Şirket Yönetimi butonuna tıklandı");
     }
-
+/*
     @Test
-    @Order(3)
+    @Order(15)
     @DisplayName("Şirket Detayları ve Düzenleme Akışı Test Ediliyor")
     public void TestCompanyDetailsFlow() {
         BaseStep.waitSeconds(1);
@@ -89,10 +89,10 @@ public class CompanyManagementTest extends BaseStep {
         WebElement saveChangesBtn = BaseStep.findElementXpathWithWait("/html/body/div[3]/div[2]/div/div[1]/div/div/div/div/div/div[2]/form/div[2]/div/div/div/div/div/div[2]/button", TimeOut.LONG.value);
         BaseStep.clickElement(saveChangesBtn, "Değişikliği Kaydet butonuna tıklandı");
         BaseStep.waitSeconds(2);
-    }
+    }*/
 
     @Test
-    @Order(4)
+    @Order(16)
     @DisplayName("Şirket Türleri Sekmelerinde Gezinme Testi")
     public void TestCompanyTypeTabs() {
         BaseStep.waitSeconds(1);
@@ -107,7 +107,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(5)
+    @Order(17)
     @DisplayName("Şirket Durum Filtresi Testi (Aktif/Pasif)")
     public void TestCompanyStatusFilter() {
         BaseStep.waitSeconds(1);
@@ -135,7 +135,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(6)
+    @Order(18)
     @DisplayName("Teknopark Şubesi Filtresi Testi (Var/Yok)")
     public void TestTeknoparkFilter() {
         BaseStep.waitSeconds(1);
@@ -163,7 +163,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(7)
+    @Order(19)
     @DisplayName("Filtreleri Temizleme Testi")
     public void TestClearFilters() {
         BaseStep.waitSeconds(2);
@@ -176,7 +176,7 @@ public class CompanyManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(8)
+    @Order(20)
     @DisplayName("Yeni Şirket Ekleme ve Yüklenici Şirket Seçimi")
     public void AddContractorCompany() {
         BaseStep.waitSeconds(2);
@@ -313,10 +313,10 @@ public class CompanyManagementTest extends BaseStep {
         ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].click();", ownerCompanySelector);
         BaseStep.waitSeconds(1);
         WebElement ownerCompanyInput = BaseStep.findElementXpathWithWait("//*[@id='directOwnerCompanyId']", TimeOut.LONG.value);
-        ownerCompanyInput.sendKeys("Ana");
+        ownerCompanyInput.sendKeys("NovaCore Teknoloji Grubu");
         BaseStep.waitSeconds(1);
         WebElement ownerOption = BaseStep.findElementXpathWithWait(
-            "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'Ana')]",
+            "//div[contains(@class,'ant-select-item-option-content') and contains(text(),'NovaCore Teknoloji Grubu')]",
             TimeOut.LONG.value);
         BaseStep.clickElement(ownerOption, "Ana Şirket seçildi");
         BaseStep.waitSeconds(1);

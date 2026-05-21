@@ -16,7 +16,7 @@ public class ProcurementDashboardTest extends BaseStep {
     }
 
     @Test
-    @Order(1)
+    @Order(5)
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
@@ -34,7 +34,7 @@ public class ProcurementDashboardTest extends BaseStep {
     }
 
     @Test
-    @Order(2)
+    @Order(6)
     @DisplayName("Yatırım Yönetimi Paneli - Sayfaya Git ve Sekmeleri Gez")
     public void TestProcurementDashboard() {
         BaseStep.waitSeconds(1);

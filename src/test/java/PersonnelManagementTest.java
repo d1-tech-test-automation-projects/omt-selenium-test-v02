@@ -16,7 +16,7 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(1)
+    @Order(7)
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
@@ -33,7 +33,7 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(2)
+    @Order(8)
     @DisplayName("Çalışan Profilini Düzenleme Testi")
     public void TestEditEmployeeProfile() {
         BaseStep.waitSeconds(3);
@@ -42,14 +42,14 @@ public class PersonnelManagementTest extends BaseStep {
         BaseStep.clickElement(PersonnelManagementDropdown, "Personel Yönetimi butonuna tıklandı");
 
         BaseStep.waitSeconds(3);
-        LogTest.info("Çalışan arama alanına 'Ayşe' yazılıyor");
+        LogTest.info("Çalışan arama alanına 'Deniz' yazılıyor");
         WebElement employeeSearchInput = BaseStep.findElementXpathWithWait("//*[@id=\"root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div[1]/span/input", TimeOut.LONG.value);
-        BaseStep.clearAndType(employeeSearchInput, "Ayşe", "Çalışan arama alanına 'Ayşe' değeri yazıldı");
-        BaseStep.waitSeconds(3);
+        BaseStep.clearAndType(employeeSearchInput, "Deniz", "Çalışan arama alanına 'Deniz' değeri yazıldı");
+        BaseStep.waitSeconds(10);
 
-        LogTest.info("Ayşe'nin çalışan kartına tıklanıyor...");
+        LogTest.info("Deniz'nin çalışan kartına tıklanıyor...");
         WebElement employeeCard = BaseStep.findElementXpathWithWait("//*[@id=\"root\"]/div/div/div/main/div/div/div/div[2]/div/div/div", TimeOut.LONG.value);
-        BaseStep.clickElement(employeeCard, "Ayşe'nin kartına tıklandı");
+        BaseStep.clickElement(employeeCard, "Deniz'nin kartına tıklandı");
         BaseStep.waitSeconds(2);
 
         LogTest.info("Çalışanı Düzenle butonuna tıklanıyor...");
@@ -100,7 +100,7 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(3)
+    @Order(9)
     @DisplayName("Çalışan Durumu Filtreleri Testi")
     public void TestPersonnelStatusFilters() {
         String dropdownTrigger = "//*[@id=\"root\"]/div/div/div/main/div/div/div/div[1]/div[1]/div[2]/div/div/span/span[2]";
@@ -143,10 +143,10 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(4)
+    @Order(10)
     @DisplayName("Şirket Filtreleri Testi")
     public void TestCompanyFilters() {
-        String[] companies = {"Tüm Şirketler", "Ana Şirket (Ana Şirket)", "Aracı Şirket 1 (Aracı Şirket)"};
+        String[] companies = {"Tüm Şirketler", "NovaCore Teknoloji Grubu (Ana Şirket)", "Alfa Yazılım Geliştirme ve Danışmanlık (Yüklenici Şirket)"};
         String wrapperXpath = "//div[contains(@class, 'employee-company-filter')]//div[contains(@class, 'ant-select-selector')]";
         String inputXpath = "//div[contains(@class, 'employee-company-filter')]//input";
 
@@ -168,7 +168,7 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(5)
+    @Order(11)
     @DisplayName("İşten Çıkarma Talebi Oluşturma Testi")
     public void TestDismissalProcess() {
         LogTest.info("İşten Çıkarma İşlemleri butonuna tıklanıyor...");
@@ -230,7 +230,7 @@ public class PersonnelManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(6)
+    @Order(12)
     @DisplayName("Yeni Çalışan Ekleme Testi")
     public void TestAddNewEmployee() {
         LogTest.info("Çalışan Ekle butonuna tıklanıyor...");
@@ -271,7 +271,7 @@ public class PersonnelManagementTest extends BaseStep {
         WebElement companyIdBox = BaseStep.findElementXpathWithWait("//input[@id='companyId']/ancestor::div[contains(@class, 'ant-select-selector')]", TimeOut.LONG.value);
         BaseStep.clickElement(companyIdBox, "Şirket ID kutusu açıldı");
         BaseStep.waitSeconds(1);
-        WebElement companyIdOption = BaseStep.findElementXpathWithWait("(//div[contains(@class, 'ant-select-dropdown') and not(contains(@style, 'display: none'))])[last()]//div[contains(@class, 'ant-select-item-option') and @title='Ana Şirket']", TimeOut.LONG.value);
+        WebElement companyIdOption = BaseStep.findElementXpathWithWait("(//div[contains(@class, 'ant-select-dropdown') and not(contains(@style, 'display: none'))])[last()]//div[contains(@class, 'ant-select-item-option') and @title='NovaCore Teknoloji Grubu']", TimeOut.LONG.value);
         BaseStep.clickElement(companyIdOption, "Şirket: Ana Şirket seçildi");
         BaseStep.waitSeconds(1);
 

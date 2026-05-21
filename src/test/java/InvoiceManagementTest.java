@@ -16,7 +16,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(1)
+    @Order(21)
     @DisplayName("Tarayıcıyı Aç ve Giriş Yap")
     public void OpenDriverAndLogin() {
         LogTest.info("Kullanıcı adı Input aranıyor");
@@ -33,7 +33,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(2)
+    @Order(22)
     @DisplayName("Fatura Yönetimi Sayfası Test Ediliyor")
     public void PageInvoiceManagement() {
         BaseStep.waitSeconds(5);
@@ -44,7 +44,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(3)
+    @Order(23)
     @DisplayName("Fatura Ekleme Butonuna Tıklanıyor")
     public void ClickAddInvoiceButton() {
         BaseStep.waitSeconds(3);
@@ -55,7 +55,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(4)
+    @Order(24)
     @DisplayName("Fatura Dökümanı Yükleniyor")
     public void UploadInvoiceFile() {
         BaseStep.waitSeconds(3);
@@ -65,7 +65,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(5)
+    @Order(25)
     @DisplayName("Sonraki Adıma Geçiliyor")
     public void ClickNextStepButton() {
         LogTest.info("Sonraki adım butonu aranıyor");
@@ -76,7 +76,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(6)
+    @Order(26)
     @DisplayName("Fatura Bilgileri Dolduruluyor")
     public void FillInvoiceDetails() {
         LogTest.info("Fatura bilgileri formu dolduruluyor");
@@ -84,24 +84,24 @@ public class InvoiceManagementTest extends BaseStep {
         // Tedarikçi Şirketi Seçimi (Arayarak)
         WebElement supplierCompany = BaseStep.findElementXpathWithWait("//*[@id='vendorCompanyId']", TimeOut.LONG.value);
         BaseStep.clickElement(supplierCompany, "Tedarikçi dropdown tıklandı");
-        BaseStep.clearAndType(supplierCompany, "D1-Tech", "Tedarikçi adı yazıldı");
+        BaseStep.clearAndType(supplierCompany, "Alfa Yazılım Geliştirme ve Danışmanlık", "Tedarikçi adı yazıldı");
         BaseStep.waitSeconds(2);
-        WebElement supplierOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'D1-Tech')]", TimeOut.LONG.value);
+        WebElement supplierOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'Alfa Yazılım Geliştirme ve Danışmanlık')]", TimeOut.LONG.value);
         BaseStep.clickElement(supplierOption, "Tedarikçi seçildi");
 
         // Alıcı Şirketi Seçimi (Arayarak)
         WebElement receiverCompany = BaseStep.findElementXpathWithWait("//*[@id='buyerCompanyId']", TimeOut.LONG.value);
         BaseStep.clickElement(receiverCompany, "Alıcı dropdown tıklandı");
-        BaseStep.clearAndType(receiverCompany, "Ana Şirket", "Alıcı adı yazıldı");
+        BaseStep.clearAndType(receiverCompany, "NovaCore Teknoloji Grubu", "Alıcı adı yazıldı");
         BaseStep.waitSeconds(2);
-        WebElement receiverOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'Ana Şirket')]", TimeOut.LONG.value);
+        WebElement receiverOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'NovaCore Teknoloji Grubu')]", TimeOut.LONG.value);
         BaseStep.clickElement(receiverOption, "Alıcı seçildi");
 
         // Kontrat Seçimi
         WebElement contractDropdown = BaseStep.findElementXpathWithWait("//*[@id='contractId']/ancestor::div[contains(@class, 'ant-select-selector')]", TimeOut.LONG.value);
         BaseStep.clickElement(contractDropdown, "Kontrat dropdown tıklandı");
         BaseStep.waitSeconds(2);
-        WebElement contractOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'FRW-2026-0005')]", TimeOut.LONG.value);
+        WebElement contractOption = BaseStep.findElementXpathWithWait("//div[contains(@class, 'ant-select-item-option-content') and contains(text(), 'MST-2026-0001')]", TimeOut.LONG.value);
         BaseStep.clickElement(contractOption, "Kontrat seçildi");
 
         // Satın Alma Numarası (PO)
@@ -140,7 +140,7 @@ public class InvoiceManagementTest extends BaseStep {
     }
 
     @Test
-    @Order(7)
+    @Order(27)
     @DisplayName("Fatura Onaya Gönderiliyor")
     public void SubmitForApproval() {
         LogTest.info("Onaya Gönder butonu aranıyor");
